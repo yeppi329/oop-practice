@@ -1,5 +1,6 @@
 package org.example;
 
+import org.example.calculate.PositiveNumber;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -21,28 +22,12 @@ public class CalculatorTest {
      • 나눗셈에서 0을 나누는 경우 IllegalArgument 예외를 발생시킨다.
      • MVC패턴(Model-View-Controller) 기반으로 구현한
      */
-//    @DisplayName("덧셈 연산을 수행한다.")
-//    @Test
-//    void additionTest() {
-//
-//        int result = Calculator.calculate(1, "+", 2);
-//
-//        assertThat(result).isEqualTo(3);
-//    }
-//    @DisplayName("뺄셈 연산을 수행한다.")
-//    @Test
-//    void subtractionTest() {
-//
-//        int result = Calculator.calculate(1, "-", 2);
-//
-//        assertThat(result).isEqualTo(-1);
-//    }
     @DisplayName("덧셈 연산을 수행한다.")
     @ParameterizedTest
     @MethodSource("formulaAndResult")
     void calculateTest(int operand1,String operator,int operand2,int result) {
 
-        int calculateResult = Calculator.calculate(operand1,operator,operand2);
+        int calculateResult = Calculator.calculate(new PositiveNumber(operand1),operator,new PositiveNumber(operand2));
 
         assertThat(calculateResult).isEqualTo(result);
     }
@@ -54,4 +39,12 @@ public class CalculatorTest {
                 arguments(4,"/",2,2)
         );
     }
+
+//    @DisplayName("나눗셈에서 0을 나누는 경우 IllegalArgument 예외를 발생시킨다.")
+//    @Test
+//    void calculateExceptionTest() {
+//        assertThatCode(() -> Calculator.calculate(new PositiveNumber(10),"/",new PositiveNumber(0)))
+//                .isInstanceOf(IllegalArgumentException.class)
+//                .hasMessage("0으로 나눌 수 없습니다.");
+//    }
 }
